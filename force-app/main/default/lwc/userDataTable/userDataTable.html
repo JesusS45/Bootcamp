@@ -1,0 +1,57 @@
+<template>
+     <!--  ----------------------------------------------------------------------  -->
+    <!--  NOTE: Please add the following <FORM> element to your page.             -->
+    <!--  ----------------------------------------------------------------------  -->
+    
+    <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8" method="POST">
+    
+    <input type=hidden name="oid" value="00D8b000002AJbh">
+    <input type=hidden name="retURL" value="https://concentrix-bootcamp-developer-edition.na212.force.com/s/appointment">
+    <input id="lead_source" name="lead_source" type="hidden" value="Bootcamp" />
+    
+    <!--  ----------------------------------------------------------------------  -->
+    <!--  NOTE: These fields are optional debugging elements. Please uncomment    -->
+    <!--  these lines if you wish to test in debug mode.                          -->
+    <!--  <input type="hidden" name="debug" value=1>                              -->
+    <!--  <input type="hidden" name="debugEmail" value="esalazar@pkglobal.com">   -->
+    <!--  ----------------------------------------------------------------------  -->
+    <lightning-layout horizontal-align="spread">
+        <lightning-layout-item size="6">
+            <lightning-input id="first_name" label="First Name" maxlength="40" name="first_name" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="6">
+            <lightning-input id="last_name" label="Last Name" maxlength="80" name="last_name" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-input id="email" label="Email" maxlength="80" name="email" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+    
+    <lightning-input id="company" label="Company" maxlength="40" name="company" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+    
+    <lightning-layout horizontal-align="spread">    
+        <lightning-layout-item size="6">
+            <lightning-input id="city" label="City" maxlength="40" name="city" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item size="6">
+            <lightning-input id="state" label="State/Province" maxlength="20" name="state" size="20" type="text" class="slds-m-left_x-small"></lightning-input>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <div class="slds-m-top_x-small">
+        <lightning-button type="submit" variant="brand" label="Submit" name="submit" class="slds-m-left_x-small"></lightning-button>
+    </div>
+    
+    </form>
+
+    <template if:false={isGuestUser}>
+        <div class="slds-table_col-bordered slds-table_bordered slds-m-top_medium">
+            <lightning-datatable
+                    key-field="id"
+                    data={appointments}
+                    columns={columns}
+                    hide-checkbox-column = "true">
+            </lightning-datatable>
+        </div>
+    </template>
+    
+</template>

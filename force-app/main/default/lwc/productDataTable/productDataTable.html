@@ -1,0 +1,80 @@
+<template>
+        <template if:false={isGuestUser}>
+            <c-create-new-product model-options={modelOptions} brand-options={brandOptions} color-options={colorOptions} oncreate={handleCreateCar}></c-create-new-product>
+        </template>
+        <lightning-button label="Filter" icon-name="utility:filterList"  size="medium" onclick={openFilterSection} class="slds-m-left_xx-small"></lightning-button>
+        <template if:true={isFilterActive}>
+            <lightning-combobox
+                name="brand"
+                label="Choose a car brand:"
+                value={brandValue}
+                placeholder="Select a car brand"
+                options={brandOptions}
+                onchange={handleBrandOptionSelected}
+                class="slds-m-left_x-small">
+            </lightning-combobox>
+            <lightning-combobox
+                name="model"
+                label="Choose a model:"
+                value={modelValue}
+                placeholder="Select a model"
+                options={modelOptions}
+                onchange={handleModelOptionSelected}
+                class="slds-m-left_x-small">
+            </lightning-combobox>
+
+            <div class="slds-m-top_x-small">
+                <lightning-button variant="brand" label="Search" icon-name="utility:search" onclick={handleSearchFilter} class="slds-m-left_x-small"></lightning-button>
+                <lightning-button variant="destructive" label="Remove filters" onclick={handleRemoveFilters} class="slds-m-left_x-small"></lightning-button>
+            </div>
+        </template>
+        
+        <div class="slds-table_col-bordered slds-table_bordered slds-m-top_medium">
+            <c-custom-data-table
+                    key-field="id"
+                    data={cars}
+                    columns={columns}
+                    hide-checkbox-column = "true"
+                    show-row-number-column="true"
+                    onrowaction={handleRowActions}>
+            </c-custom-data-table>
+        </div> 
+
+        <template if:true={isEditModalOpen}>
+            <!-- Modal/Popup Box LWC starts here -->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box LWC header here -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEditModal}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit car</h2>
+                    </header>
+                    <!-- Modal/Popup Box LWC body starts here -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-record-edit-form
+                            object-api-name={objectApiName}
+                            record-id={currentRecordId}
+                            onsuccess={handleSuccess}
+                        >
+                        <lightning-input-field field-name="Family"></lightning-input-field>
+                        <lightning-input-field field-name="Product_Brand__c"></lightning-input-field>
+                        <lightning-input-field field-name="Product_Color__c"></lightning-input-field>
+                        <lightning-input-field field-name="Product_Price__c"></lightning-input-field>
+                        <lightning-input-field field-name="IsActive"></lightning-input-field>
+                        <div class="slds-var-m-top_medium">
+                            <lightning-button variant="brand" type="submit" label="Save">
+                            </lightning-button>
+                        </div>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+</template>

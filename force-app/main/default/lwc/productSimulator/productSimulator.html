@@ -1,0 +1,68 @@
+<template>
+    <lightning-combobox
+        name="model"
+        label="Model"
+        value={modelValue}
+        placeholder="Select a Model"
+        options={modelOptions}
+        onchange={handleModelOptionSelected}
+        class="slds-m-left_x-small">
+    </lightning-combobox>
+    <lightning-input type="number" name="amount" label="Amount" value={amountValue} formatter="currency" step="0.01" onchange={handleAmountChange} class="slds-m-left_x-small"></lightning-input>
+    <lightning-input type="number" name="downPayment" label="Down Payment" value={downPaymentValue} formatter="currency" step="0.01" onchange={handleDownPaymentChange}  class="slds-m-left_x-small"></lightning-input>
+    <lightning-combobox
+        name="term"
+        label="Term"
+        value={termValue}
+        placeholder="Select a Term"
+        options={termOptions}
+        onchange={handleTermOptionSelected}
+        class="slds-m-left_x-small">
+    </lightning-combobox>
+
+    <div class="slds-m-top_x-small">
+        <lightning-button label="Calculate" onclick={handleCalculatePayment} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="brand" label="Download as CSV" onclick={handleDownloadCSVFile} icon-name="utility:download" disabled={isButtonDisabled} class="slds-m-left_x-small"></lightning-button>
+    </div>
+    
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-m-top_medium">
+        <thead>
+            <tr>
+                <template for:each={columns} for:item="column">
+                    <th class="" scope="col" key={column.label}>
+                        <div class="slds-truncate" title={column.label}>{column.label}</div>
+                    </th>
+                </template>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={data} for:item="item">
+                <tr class="slds-hint-parent" key={item.Pay_Number}>
+                    <td>
+                        <div class="slds-truncate">{item.Pay_Number}</div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate">
+                            <lightning-formatted-number value={item.Unpaid_Auto_Balance} format-style="currency"></lightning-formatted-number>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate">
+                            <lightning-formatted-number value={item.Monthly_Auto_Capital_Payment} format-style="currency"></lightning-formatted-number>    
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate">
+                            <lightning-formatted-number value={item.Monthly_Payment_of_Auto_Interest} format-style="currency"></lightning-formatted-number>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="slds-truncate">
+                            <lightning-formatted-number value={item.Total_Payment_with_VAT} format-style="currency"></lightning-formatted-number>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>
